@@ -1,0 +1,3 @@
+include setup.py README.rst MANIFEST.in LICENSE
+recursive-include bin sql_data_dependency *
+global-exclude *~
