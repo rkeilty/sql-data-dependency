@@ -140,8 +140,9 @@ class SqlDatabaseDependencyManager(object):
                 self.app_args.database)
 
             try:
+                # Make sure mysqldump is available on the PATH
                 with open(os.devnull, 'w') as devnull:
-                    subprocess.check_call(['command', '-V', 'mysqldump'], stdout=devnull)
+                    subprocess.check_call(['mysqldump', '--help'], stdout=devnull)
             except Exception:
                 print('mysqldump not installed', file=sys.stderr)
                 sys.exit(1)

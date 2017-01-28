@@ -31,7 +31,7 @@ For example, to find dependencies of row 53 in table A:
 ::
 
     $: sqldd A 53
-    $: {u'A': [53],
+       {u'A': [53],
         u'D': [1, 2, 20],
         u'M': [48]}
 
@@ -53,8 +53,8 @@ Now invoking will give more output:
 
 ::
 
-    $: sqldd A 53
-    $: {u'A': [53],
+    $: sqldd --json input.json
+       {u'A': [53],
         u'another_table': [1, 4, 10, 22, 28],
         u'D': [1, 2, 20],
         u'M': [48],
@@ -126,14 +126,23 @@ Author
 Version
 =======
 
--  Version: 0.9
--  Release Date: 2017-01-27
+-  Version: 0.9.1
+-  Release Date: 2017-01-28
 
 Revision History
 ================
 
-Version 0.9
------------
+Version 0.9.1
+-------------
+
+-  Release Date: 2017-01-28
+-  Changes:
+
+   -  Fix for mysqldump command check
+   -  Documentation updates
+
+Version 0.9.0
+-------------
 
 -  Release Date: 2017-01-27
 -  Changes:
