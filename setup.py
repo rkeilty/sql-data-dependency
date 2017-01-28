@@ -12,7 +12,7 @@ f.close()
 
 setup(
     name='sqldd',
-    version='0.9',
+    version='0.9.1',
     author='Rick Keilty',
     author_email='rkeilty@gmail.com',
     url='http://github.com/rkeilty/sql-data-dependency',
