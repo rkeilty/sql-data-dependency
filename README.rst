@@ -126,11 +126,19 @@ Author
 Version
 =======
 
--  Version: 0.9.1
--  Release Date: 2017-01-28
+-  Version: 0.9.2
+-  Release Date: 2017-02-03
 
 Revision History
 ================
+
+Version 0.9.2
+-------------
+
+-  Release Date: 2017-02-03
+-  Changes:
+
+   -  Allow for older SQLAlchemy usage
 
 Version 0.9.1
 -------------
