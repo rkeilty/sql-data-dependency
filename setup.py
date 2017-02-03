@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'MySQL-python>=1.0.0',
-    'SQLAlchemy>=1.1.0',
+    'SQLAlchemy>=1.0.0',
 ]
 
 f = open('README.rst')
@@ -12,7 +12,7 @@ f.close()
 
 setup(
     name='sqldd',
-    version='0.9.1',
+    version='0.9.2',
     author='Rick Keilty',
     author_email='rkeilty@gmail.com',
     url='http://github.com/rkeilty/sql-data-dependency',
