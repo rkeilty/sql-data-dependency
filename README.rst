@@ -3,6 +3,11 @@ SQL Data Dependency Tool
 
 The SQL Data Dependency Tool (``sqldd``) is a tookit used for analyzing dependencies between rows in a database.  Given a table and a primary key, it recursively analyzes foreign keys to generate a map of all downstream tables and foreign keys the initial "root row" depends on.
 
+Status
+======
+.. image:: https://travis-ci.org/rkeilty/sql-data-dependency.svg?branch=master
+    :target: https://travis-ci.org/rkeilty/sql-data-dependency
+
 Installation
 ============
 
