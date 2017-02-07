@@ -9,6 +9,7 @@ services:
 addons:
   apt:
     packages:
+    - mysql-client-5.5
     - mysql-client
 
 # Install and script
