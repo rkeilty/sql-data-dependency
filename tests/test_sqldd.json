@@ -1,0 +1,5 @@
+{
+    "A": [53],
+    "another_table": [1, 4, 10],
+    "one_more_table": ["string_pk_1", "string_pk_2"]
+}
