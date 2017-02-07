@@ -129,7 +129,7 @@ class SqlDatabaseDependencyManager(object):
             mysqldump_where = '{primary_key_column} in ({primary_key})'.format(
                 primary_key_column=primary_key_column,
                 primary_key=','.join(
-                    [str(pk) if not isinstance(pk, basestring) else '\'{}\''.format(pk) for pk in primary_keys]))
+                    [str(pk) if not isinstance(pk, str) else '\'{}\''.format(pk) for pk in primary_keys]))
 
             mysqldump_statements.append(
                 'mysqldump -h {server} -u {username} --port {port} --single-transaction '
