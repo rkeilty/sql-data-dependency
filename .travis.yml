@@ -16,7 +16,7 @@ addons:
 install:
   - pip install -r requirements.txt
 script:
-  - .travis.script.sh
+  - ./.travis.script.sh
 
 # Deployments on completion, only do this for the 3.6 python env
 after_success:
