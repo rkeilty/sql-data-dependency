@@ -105,13 +105,12 @@ Options
 ::
     
     usage: sqldd [-h] [--json JSON_FILE] [--server SERVER] [--port PORT]
-                 --database DATABASE [--username USERNAME]
-                 [--password PASSWORD] [--mysqldump] [--mysqldump_gzip]
-                 [--mysqldump_table_defs]
+                 --database DATABASE [--username USERNAME] [--password PASSWORD]
+                 [--pretty] [--sqldump] [--sqldump_table_defs]
                  [table] [primary_key]
 
     SQL Data Dependency Tool
-    
+
     One of either ([table][primary_key]) or [--json] is required.
 
     positional arguments:
@@ -126,11 +125,11 @@ Options
       --database DATABASE   Database name
       --username USERNAME   Database username
       --password PASSWORD   Database password
-      --mysqldump           Generate a mysqldump file of all dependencies
-      --mysqldump_gzip      GZip the mysqldump output
-      --mysqldump_table_defs
-                            Dump _all_ table defs, even those without
+      --pretty              Pretty print the output
+      --sqldump             Generate a sql dump file of all dependencies
+      --sqldump_table_defs  Dump _all_ table defs, even those without
                             dependencies. Useful for constructing skeleton DBs.
+
 
 Todo
 ====
@@ -165,11 +164,22 @@ Author
 Version
 =======
 
--  Version: 0.9.2
--  Release Date: 2017-02-03
+-  Version: 1.0.0
+-  Release Date: 2017-02-07
 
 Revision History
 ================
+
+Version 1.0.0
+-------------
+
+-  Release Date: 2017-02-07
+-  Changes:
+
+   -  Python 2/3 portability
+   -  Dockerized command
+   -  Basic tests
+   -  Simplified shell connections
 
 Version 0.9.2
 -------------

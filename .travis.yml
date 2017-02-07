@@ -21,10 +21,10 @@ script:
 # Deployments on completion, only do this for the 3.6 python env
 after_success:
   - if [ -n "$TRAVIS_TAG" ] && [ "$TRAVIS_PYTHON_VERSION" == "3.6" ]; then
-      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker tag rickster001/sqldd:latest "rickster001/sqldd:$TRAVIS_TAG"
-      docker push rickster001/sqldd:latest;
-      docker push "rickster001/sqldd:$TRAVIS_TAG";
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker tag rickster001/sqldd:latest "rickster001/sqldd:$TRAVIS_TAG"
+    docker push rickster001/sqldd:latest;
+    docker push "rickster001/sqldd:$TRAVIS_TAG";
     fi
 
 deploy:
