@@ -3,6 +3,11 @@ SQL Data Dependency Tool
 
 The SQL Data Dependency Tool (``sqldd``) is a tookit used for analyzing dependencies between rows in a database.  Given a table and a primary key, it recursively analyzes foreign keys to generate a map of all downstream tables and foreign keys the initial "root row" depends on.
 
+Status
+======
+.. image:: https://travis-ci.org/rkeilty/sql-data-dependency.svg?branch=master
+    :target: https://travis-ci.org/rkeilty/sql-data-dependency
+
 Installation
 ============
 
@@ -30,10 +35,20 @@ The most common usage of the tool is from the shell with ``sqldd``.
 For example, to find dependencies of row 53 in table A:
 ::
 
-    $: sqldd A 53
-       {u'A': [53],
-        u'D': [1, 2, 20],
-        u'M': [48]}
+    $: sqldd A 53 --database sqldd_db --pretty
+       {
+           "A": [
+               53
+           ],
+           "D': [
+               1,
+               2,
+               20
+           ],
+           "M': [
+               48
+           ]
+       }
 
 This indicates that in the complete dependency tree for that row, tables ``D`` and ``M`` have rows that matter to foreign keys.  This may not be a direct child dependency of ``A``, but possibly a sub-dependency (``A:53 --> D:1 --> M:48``)
 
@@ -53,26 +68,49 @@ Now invoking will give more output:
 
 ::
 
-    $: sqldd --json input.json
-       {u'A': [53],
-        u'another_table': [1, 4, 10, 22, 28],
-        u'D': [1, 2, 20],
-        u'M': [48],
-        u'P': [800, 908],
-        u'one_more_table': ["string_pk_1", "string_pk_2", "string_pk_4444"]}
+    $: sqldd --json input.json --database sqldd_db --pretty
+       {
+           "A": [53],
+           "D": [1, 2, 20],
+           "M": [48],
+           "P": [800, 908],
+           "another_table": [1, 4, 10, 22, 28],
+           "one_more_table": ["string_pk_1", "string_pk_2", "string_pk_4444"]
+       }
+
+Docker
+------
+A docker image of the tool is also available.  It is invoked using ``docker run`` the same way as the pip command.
+
+::
+
+    $: docker run --rm rkeilty/sqldd A 53 --database my_db --pretty
+       {
+           "A": [
+               53
+           ],
+           "D': [
+               1,
+               2,
+               20
+           ],
+           "M': [
+               48
+           ]
+       }
+
 
 Options
 -------
 ::
     
     usage: sqldd [-h] [--json JSON_FILE] [--server SERVER] [--port PORT]
-                 --database DATABASE [--username USERNAME]
-                 [--password PASSWORD] [--mysqldump] [--mysqldump_gzip]
-                 [--mysqldump_table_defs]
+                 --database DATABASE [--username USERNAME] [--password PASSWORD]
+                 [--pretty] [--sqldump] [--sqldump_table_defs]
                  [table] [primary_key]
 
     SQL Data Dependency Tool
-    
+
     One of either ([table][primary_key]) or [--json] is required.
 
     positional arguments:
@@ -87,11 +125,11 @@ Options
       --database DATABASE   Database name
       --username USERNAME   Database username
       --password PASSWORD   Database password
-      --mysqldump           Generate a mysqldump file of all dependencies
-      --mysqldump_gzip      GZip the mysqldump output
-      --mysqldump_table_defs
-                            Dump _all_ table defs, even those without
+      --pretty              Pretty print the output
+      --sqldump             Generate a sql dump file of all dependencies
+      --sqldump_table_defs  Dump _all_ table defs, even those without
                             dependencies. Useful for constructing skeleton DBs.
+
 
 Todo
 ====
@@ -126,11 +164,22 @@ Author
 Version
 =======
 
--  Version: 0.9.2
--  Release Date: 2017-02-03
+-  Version: 1.0.0
+-  Release Date: 2017-02-07
 
 Revision History
 ================
+
+Version 1.0.0
+-------------
+
+-  Release Date: 2017-02-07
+-  Changes:
+
+   -  Python 2/3 portability
+   -  Dockerized command
+   -  Basic tests
+   -  Simplified shell connections
 
 Version 0.9.2
 -------------
