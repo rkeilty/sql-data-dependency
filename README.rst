@@ -35,10 +35,20 @@ The most common usage of the tool is from the shell with ``sqldd``.
 For example, to find dependencies of row 53 in table A:
 ::
 
-    $: sqldd A 53
-       {u'A': [53],
-        u'D': [1, 2, 20],
-        u'M': [48]}
+    $: sqldd A 53 --database sqldd_db --pretty
+       {
+           "A": [
+               53
+           ],
+           "D': [
+               1,
+               2,
+               20
+           ],
+           "M': [
+               48
+           ]
+       }
 
 This indicates that in the complete dependency tree for that row, tables ``D`` and ``M`` have rows that matter to foreign keys.  This may not be a direct child dependency of ``A``, but possibly a sub-dependency (``A:53 --> D:1 --> M:48``)
 
@@ -58,13 +68,37 @@ Now invoking will give more output:
 
 ::
 
-    $: sqldd --json input.json
-       {u'A': [53],
-        u'another_table': [1, 4, 10, 22, 28],
-        u'D': [1, 2, 20],
-        u'M': [48],
-        u'P': [800, 908],
-        u'one_more_table': ["string_pk_1", "string_pk_2", "string_pk_4444"]}
+    $: sqldd --json input.json --database sqldd_db --pretty
+       {
+           "A": [53],
+           "D": [1, 2, 20],
+           "M": [48],
+           "P": [800, 908],
+           "another_table": [1, 4, 10, 22, 28],
+           "one_more_table": ["string_pk_1", "string_pk_2", "string_pk_4444"]
+       }
+
+Docker
+------
+A docker image of the tool is also available.  It is invoked using ``docker run`` the same way as the pip command.
+
+::
+
+    $: docker run --rm rkeilty/sqldd A 53 --database my_db --pretty
+       {
+           "A": [
+               53
+           ],
+           "D': [
+               1,
+               2,
+               20
+           ],
+           "M': [
+               48
+           ]
+       }
+
 
 Options
 -------

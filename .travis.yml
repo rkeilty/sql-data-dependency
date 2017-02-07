@@ -1,9 +1,54 @@
+# Configuration
+sudo: required
 language: python
 python:
-  - "2.7"
-  - "3.6"
-# command to install dependencies
+  - '2.7'
+  - '3.6'
+services:
+  - docker
+
+# Install and script
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq --no-install-recommends mysql-client
 install:
   - pip install -r requirements.txt
-# command to run tests
-script: pytest
+script:
+  - flake8
+    pytest
+    docker build -t rickster001/sqldd:latest .
+
+    docker run --rm -d -p "3306:3306" -e "MYSQL_ROOT_PASSWORD=password" -e "MYSQL_DATABASE=sqldd_db" --name mysql mysql:5.7
+    RC=1
+    COUNT=30
+    while [ "$RC" -eq 1 ] && [ "$COUNT" -gt 0 ]; do
+      sleep 1
+      if docker logs mysql 2>&1 | grep -o "MySQL init process done" >/dev/null; then
+        RC=0
+      else
+        COUNT=$((COUNT + 1))
+      fi
+    done
+
+    pytest --runlivedb
+
+    docker stop mysql
+
+
+# Deployments on completion, only do this for the 3.6 python env
+after_success:
+  - if [ -n "$TRAVIS_TAG" ] && [ "$TRAVIS_PYTHON_VERSION" == "3.6" ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker tag rickster001/sqldd:latest "rickster001/sqldd:$TRAVIS_TAG"
+      docker push rickster001/sqldd:latest;
+      docker push "rickster001/sqldd:$TRAVIS_TAG";
+    fi
+
+deploy:
+  provider: pypi
+  user: rkeilty
+  password:
+    secure: jvU0IFqGbwUfcnwAK+/jzVCjLbYRsQLrKDE4+pSFY308ZEd5dJVxk5SewWTBASUlPMipbuNPsLcznxFJZEQloY/oOTJIJy3WpHgwCuW8I/OokTx0KZA/2NG1mQjE2YGnxR1MdFd5kno7JrF9xUCBym2I+mSy8ZvhBkyP9l8+OswGQSiCaCcj2Z1CvnZoc6BbJS/aniRNbwpFi/IjDktNbP2koZbmUnismaF+LMcJSXFkEVdlkvjDTW1kuwXZ7w/NYVdPlnduDIGP4lDeii3CtpnkywpgcYWpZM8GRRUVF13S7jEC5YnXH6i7pWoiWuRo/vnB2ubMlPom18ubxtCRpeeiGHCgMnoeAhy7TQOu4XHc1B0uxZxRQVFd7Gf4Q94K5gDSTFG8sdZz2k5o3jVlC0lhINxu8bD5QlcaR1UCzoxysa+tIv/kIjoJex7UtxFWFFiZQPAYkFAmJDD4hbH8kZDC87nQwvLr9lErcgJJF40acxoQtM+8f3z6qxmCyKj9OEPP09W2ybGcA8MJW39izFUNyqNJwUih7DjTxA3ZGyNW6XAnGAa6MLxs+6wLg6toz0HSRAe1GP+LGXEwCIx380I+s/3mT81HbnUK00g0xpAX+bj58M/CBeMHlHToQTyvtyXjVWcMZMWSl2ZvZwFxu4cW+AtULNepg1nlx5XsVVA=
+  on:
+    tags: true
+    condition: $TRAVIS_PYTHON_VERSION = 3.6

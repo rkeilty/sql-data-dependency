@@ -1,6 +1,7 @@
-*.pyc
 *.egg-info
+*.pyc
+*.pyo
+.cache/
 .idea/
 dist/
 env/
-

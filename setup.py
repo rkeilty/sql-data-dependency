@@ -2,7 +2,8 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'MySQL-python>=1.0.0',
+    'mysqlclient>=1.0.0',
+    'six>=1.5.0',
     'SQLAlchemy>=1.0.0',
 ]
 
@@ -22,9 +23,9 @@ setup(
     packages=find_packages(),
     install_requires=install_requires,
     include_package_data=True,
-    scripts=[
-        'bin/sqldd'
-    ],
+    entry_points={
+        'console_scripts': ['sqldd=sql_data_dependency.command_line:main'],
+    },
     zip_safe=False,
     classifiers=[
         'Intended Audience :: Developers',
