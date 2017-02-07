@@ -5,7 +5,7 @@ flake8
 pytest
 docker build -t rickster001/sqldd:latest .
 
-docker run --rm -d -p "3306:3306" -e "MYSQL_ROOT_PASSWORD=password" -e "MYSQL_DATABASE=sqldd_db" --name mysql mysql:5.7
+docker run -d -p "3306:3306" -e "MYSQL_ROOT_PASSWORD=password" -e "MYSQL_DATABASE=sqldd_db" --name mysql mysql:5.7
 RC=1
 COUNT=30
 while [ "$RC" -eq 1 ] && [ "$COUNT" -gt 0 ]; do
