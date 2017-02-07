@@ -1,7 +1,7 @@
 import pytest
+import subprocess
 
 from sql_data_dependency.sqldd import SqlDatabaseDependencyManager
-from sqlalchemy import create_engine
 
 
 live = pytest.mark.skipif(
@@ -13,10 +13,7 @@ live = pytest.mark.skipif(
 @live
 def test_simple_dump():
     # This test assumes a database call sqldd_db, user of root/password
-    engine = create_engine('mysql://root:password@127.0.0.1:3306/sqldd_db')
-    with open('tests/test_sqldd.sql', 'r') as sql_file:
-        sql_commands = sql_file.read()
-        engine.execute(sql_commands)
+    subprocess.check_call('mysql -uroot -ppassword -h127.0.0.1 -P3306 sqldd_db < tests/test_sqldd.sql', shell=True)
 
     # Given this, invoke the manager
     manager = SqlDatabaseDependencyManager(

@@ -1,4 +1,3 @@
-SET autocommit=1;
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS A;
@@ -80,4 +79,3 @@ INSERT INTO one_more_table (`one_more_table_id`, `p_fk_id`) VALUES ('string_pk_2
 INSERT INTO one_more_table (`one_more_table_id`, `p_fk_id`) VALUES ('string_pk_4444', 908);
 
 SET FOREIGN_KEY_CHECKS=1;
-
